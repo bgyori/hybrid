@@ -1,1 +1,1 @@
-# hybrid
+# Approximate probabilistic verification of hybrid systems
