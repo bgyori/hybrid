@@ -7,7 +7,8 @@ function tf = SMC(model,property)
 	tf = true;
 	tStart = tic;
     N = 0;
-	while toContinue
+	nTrue = 0;
+	while true
 		% Simulate system
 		[q,x] = simTraj(model,property.dt,property.nt,property.J);
 		% Verify trajectory
@@ -15,7 +16,7 @@ function tf = SMC(model,property)
         N = N + 1;
         nTrue = nTrue + tf1;
         % Check SPRT condition
-		tf = SPRT(N, nTrue, property.alpha, property.beta, property.delta, property.r)
+		tf = SPRT(N, nTrue, property.alpha, property.beta, property.delta, property.r);
         if tf ~= -1
             break;
         end
@@ -48,9 +49,9 @@ function result = SPRT(nTotal, nTrue, alpha, beta, delta, r)
     result = -1;
 
     if (nTrue>=acceptance_number)
-        result = 0;
-    elseif (nTrue<=rejection_number)
         result = 1;
+    elseif (nTrue<=rejection_number)
+        result = 0;
     end
 
 end

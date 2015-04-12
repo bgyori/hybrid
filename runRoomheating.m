@@ -23,7 +23,7 @@ model = createRoomHeating(3,2);
 %% PROPERTIES
 % - Property R1 - Initially heaters are in room 1 and 2, and no heater will be moved within 5 days
 % $\mathbf{G}^{\leq 5}([\text{Heater in R1}] \wedge \text{[Heater in R2]})$
-property.formula = @(q,x) (all((q==1)|(q==2)|(q==3)|q(==4)));
+property.formula = @(q,x) (all((q==1)|(q==2)|(q==3)|(q==4)));
 
 
 % - Property R2- The temperature in all three rooms stabilizes within 1 day
