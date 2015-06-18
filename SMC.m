@@ -75,6 +75,8 @@ function [q,x] = simTraj(model,dt,nt,J)
 	% Set initial mode
 	q(1) = model.mode0;
 	
+	% Absolute time
+	abst = 0;
 	for t=1:nt
 		modecur = q(t);
 		
@@ -82,7 +84,7 @@ function [q,x] = simTraj(model,dt,nt,J)
 		ts = sort(dt*rand(1,J));
 		ts = [0 ts dt];
 		% Simulate system
-		[~,xout] = model.solver(model.modes(modecur).ode,ts,x(t,:));
+		[~,xout] = model.solver(model.modes(modecur).ode,abst+ts,x(t,:));
 
 		% Check which guards are enabled
 		g = checkGuards(model,modecur,xout);
@@ -112,11 +114,12 @@ function [q,x] = simTraj(model,dt,nt,J)
 			else % Change before last time point
 				% Simulate again
 				[~,xout] = model.solver(model.modes(modenext).ode,...
-						ts(tchange:end)-min(ts(tchange:end)),xout(tchange,:));
+						abst+ts(tchange:end)-min(ts(tchange:end)),xout(tchange,:));
 				x(t+1,:) = xout(end,:);
 			end
 		end
 		q(t+1) = modenext;
+		abst = abst + dt;
 	end
 end
 
