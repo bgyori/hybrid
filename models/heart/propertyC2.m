@@ -1,13 +1,12 @@
-%C2: F<=500([M4] && F<=500(G<=100([M1])))
-function truth = quantpropertyC1(q,x)
+%$\mathbf{F}^{\leq 500}([q==4]) \wedge \mathbf{F}^{\leq 500}(\mathbf{G}^{\leq 100}([q==1]))$.
+function truth = propertyC2(q,x)
 	dt = 0.5;
 	nq1 = 100/dt;
-    u = x(:,1);
-	q4 = find(x(:,1)>=1.2,1,'first');
+	q4 = find(q==4,1,'first');
 	if ~isempty(q4)
 		ctr = 0;
 		for i = (q4+1):length(q)
-			if u(i)<=0.006
+			if (q(i)==1)||(q(i)==8)
 				ctr = ctr + 1;
 			else
 				ctr = 0;

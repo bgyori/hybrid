@@ -7,7 +7,7 @@
 % the stimulus epsilon last for 1 millionsecond, 
 % 4 modes with stimulus + 4 modes without stimuls
 
-function model = createHeart9()
+function model = createHeart_mid_healthy_trans()
 
 	% Number of modes
 	model.nmodes = 8;

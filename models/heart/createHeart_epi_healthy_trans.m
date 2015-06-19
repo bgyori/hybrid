@@ -7,7 +7,7 @@
 % the stimulus epsilon last for 1 millionsecond, 
 % 4 modes with stimulus + 4 modes without stimuls
 
-function model = createHeartEpi()
+function model = createHeart_epi_healthy_trans()
 
 	% Number of modes
 	model.nmodes = 8;
@@ -16,17 +16,12 @@ function model = createHeartEpi()
 	% Initial mode
 	model.mode0 = 1;
 	% Initial state distribution
-	%model.x0(:,1) = [0.0;0.001];     %[low;high]
-	%model.x0(:,2) = [0.99;1.01];	 %[low;high]
-	%model.x0(:,3) = [0.99;1.01];     %[low;high]
-	%model.x0(:,4) = [0;0.001];       %[low;high]
-	%model.x0(:,5) = [0.0;0.0];       %[low;high]
+	model.x0(:,1) = [0.0;0.001];     %[low;high]
+	model.x0(:,2) = [0.99;1.01];	 %[low;high]
+    model.x0(:,3) = [0.99;1.01];     %[low;high]
+	model.x0(:,4) = [0;0.001];       %[low;high]
+    model.x0(:,5) = [0.0;0.0];       %[low;high]
 
-	model.x0(:,1) = [0.0;0.0];     %[low;high]
-	model.x0(:,2) = [1.0;1.0];	 %[low;high]
-	model.x0(:,3) = [1.0;1.0];     %[low;high]
-	model.x0(:,4) = [0.0;0.0];       %[low;high]
-	model.x0(:,5) = [0.0;0.0];       %[low;high]
 	
   	% Model parameters
     EPI_TVP   =     1.4506; 

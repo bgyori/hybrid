@@ -3,24 +3,49 @@
 
 % SMC: Perform statistical model checking on a hybrid system model
 % with respect to a property
-function tf = SMC(model,property)
-	tf = true;
+function tf = SMC(model,property,onesided)
+	if nargin < 3
+		onesided = true;
+	end
+
+    tf = true;
 	tStart = tic;
     N = 0;
 	nTrue = 0;
-	while true
-		% Simulate system
-		[q,x] = simTraj(model,property.dt,property.nt,property.J);
-		% Verify trajectory
-		tf1 = property.formula(q,x);
-        N = N + 1;
-        nTrue = nTrue + tf1;
-        % Check SPRT condition
-		tf = SPRT(N, nTrue, property.alpha, property.beta, property.delta, property.r);
-        if tf ~= -1
-            break;
-        end
-	end
+
+    if onesided
+        N_max = log(property.alpha)/log(1-property.delta);
+		batchSize = 4;
+		batchNum = ceil(N_max / batchSize);
+		N = 0;
+		for j = 1:batchNum
+			parfor i = 1:batchSize
+				% Simulate system
+				[q,x] = simTraj(model,property.dt,property.nt,property.J);
+				% Verify trajectory
+				tf(i) = property.formula(q,x);
+				N = N + 1;
+			end
+			if any(~tf)
+				tf = false; break;
+			end
+			fprintf('N: %d, t:%.1f\n',N,toc(tStart));
+		end
+    else
+    	while true
+    		% Simulate system
+    		[q,x] = simTraj(model,property.dt,property.nt,property.J);
+    		% Verify trajectory
+    		tf1 = property.formula(q,x);
+            N = N + 1;
+            nTrue = nTrue + tf1;
+            % Check SPRT condition
+    		tf = SPRT(N, nTrue, property.alpha, property.beta, property.delta, property.r);
+            if tf ~= -1
+                break;
+            end
+    	end
+    end
 	tTotal = toc(tStart);
 	
 	fprintf('\nNumber of samples/true: %d/%d, Runtime: %f\n',N,nTrue,tTotal);

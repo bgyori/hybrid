@@ -7,7 +7,7 @@
 % the stimulus epsilon last for 1 millionsecond, 
 % 4 modes with stimulus + 4 modes without stimuls
 
-function model = createHeartEndo()
+function model = createHeart_endo_diseased_trans()
 
 	% Number of modes
 	model.nmodes = 8;
@@ -32,8 +32,8 @@ function model = createHeartEndo()
         ENDO_TS1   =    2.7342;  
         ENDO_TS2   =   2.;   
         ENDO_TFI   =    0.1;  
-        ENDO_TO1   =  470.; 
-	%ENDO_TO1   =  0.004; diseased state
+        %ENDO_TO1   =  470.; 
+	ENDO_TO1   =  0.004; %diseased state
         ENDO_TO2   =    6.  ; 
         ENDO_TSO1  =   40.0;
         ENDO_TSO2  =    1.2;

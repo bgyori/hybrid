@@ -7,7 +7,7 @@
 % the stimulus epsilon last for 1 millionsecond, 
 % 4 modes with stimulus + 4 modes without stimuls
 
-function model = createHeart7()
+function model = createHeart_epi_diseased_trans()
 
 	% Number of modes
 	model.nmodes = 8;
@@ -16,16 +16,10 @@ function model = createHeart7()
 	% Initial mode
 	model.mode0 = 1;
 	% Initial state distribution
-	%model.x0(:,1) = [0.0;0.001];     %[low;high]
-	%model.x0(:,2) = [0.99;1.01];	 %[low;high]
-    %model.x0(:,3) = [0.99;1.01];     %[low;high]
-	%model.x0(:,4) = [0;0.001];       %[low;high]
-    %model.x0(:,5) = [0.0;0.0];       %[low;high]
-	
-	model.x0(:,1) = [0.0;0.00];     %[low;high]
-	model.x0(:,2) = [1.0;1.0];	 %[low;high]
-    model.x0(:,3) = [1.0;1.0];     %[low;high]
-	model.x0(:,4) = [0;0.00];       %[low;high]
+	model.x0(:,1) = [0.0;0.001];     %[low;high]
+	model.x0(:,2) = [0.99;1.01];	 %[low;high]
+    model.x0(:,3) = [0.99;1.01];     %[low;high]
+	model.x0(:,4) = [0;0.001];       %[low;high]
     model.x0(:,5) = [0.0;0.0];       %[low;high]
 
 	
@@ -39,8 +33,8 @@ function model = createHeart7()
     EPI_TS1   =    2.7342;  
     EPI_TS2   =   16.;
     EPI_TFI   =    0.11;
-    EPI_TO1   =  400.;
-	%EPI_TO1   =  0.004; diseased state
+    %EPI_TO1   =  400.;
+	EPI_TO1   =  0.004; %diseased state
     EPI_TO2   =    6.;
     EPI_TSO1  =   30.0181;
     EPI_TSO2  =    0.9957;
@@ -103,9 +97,9 @@ function model = createHeart7()
 	% Formula of the guard
 	model.modes(4).guards(1).formula = @(x) (x(1)<0.3);
 	% TRANSIENT STIMULATION
-	%model.modes(4).guards(2).formula = @(x) (x(5)>1);
+	model.modes(4).guards(2).formula = @(x) (x(5)>1);
 	% SUSTAINED STIMULATION
-	model.modes(4).guards(2).formula = @(x) (x(5)>500);
+	% model.modes(4).guards(2).formula = @(x) (x(5)>500);
 	% Target mode of the guard
 	model.modes(4).guards(1).target = 3;
 	model.modes(4).guards(2).target = 5;
