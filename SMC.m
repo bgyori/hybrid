@@ -19,6 +19,7 @@ function tf = SMC(model,property,onesided)
 		batchNum = ceil(N_max / batchSize);
 		N = 0;
 		for j = 1:batchNum
+			tf = false(1,batchSize);
 			parfor i = 1:batchSize
 				% Simulate system
 				[q,x] = simTraj(model,property.dt,property.nt,property.J);
@@ -26,8 +27,10 @@ function tf = SMC(model,property,onesided)
 				tf(i) = property.formula(q,x);
 				N = N + 1;
 			end
+			nTrue = nTrue + sum(tf);
 			if any(~tf)
-				tf = false; break;
+				tf = false; 
+				break;
 			end
 			fprintf('N: %d, t:%.1f\n',N,toc(tStart));
 		end
